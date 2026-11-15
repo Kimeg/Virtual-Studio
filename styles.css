@@ -1,0 +1,533 @@
+/* ==========================================================================
+   Theme Variables & Base Reset
+   ========================================================================== */
+:root {
+  --bg: #e9e7e2;
+  --panel: #f6f5f1;
+  --panel-alt: #dddad3;
+  --ink: #22262e;
+  --mute: #6b707a;
+  --line: #d3cfc4;
+  --beat: #bdb8ac;
+  --bar: #8f8a7e;
+  --cell: #fbfaf7;
+  --cell-alt: #efede7;
+  --accent: #2a6fdb;
+  --black-key: #3b404b;
+  --black-key-ink: #e8eaee;
+
+  /* Track Accent Colors */
+  --c-drums: #ff6b8a;
+  --c-piano: #58d7ff;
+  --c-guitar: #a6ff6b;
+  --c-bass: #c18bff;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171c;
+    --panel: #1e2128;
+    --panel-alt: #2a2e37;
+    --ink: #e6e8ec;
+    --mute: #8f96a3;
+    --line: #2d313b;
+    --beat: #3d4350;
+    --bar: #6a7284;
+    --cell: #232730;
+    --cell-alt: #1b1e25;
+    --accent: #6aa5ff;
+    --black-key: #0f1116;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #15171c;
+  --panel: #1e2128;
+  --panel-alt: #2a2e37;
+  --ink: #e6e8ec;
+  --mute: #8f96a3;
+  --line: #2d313b;
+  --beat: #3d4350;
+  --bar: #6a7284;
+  --cell: #232730;
+  --cell-alt: #1b1e25;
+  --accent: #6aa5ff;
+  --black-key: #0f1116;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 13px/1.35 "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+}
+
+/* ==========================================================================
+   Form Controls & Shared Interactive Elements
+   ========================================================================== */
+button,
+select,
+input[type="number"] {
+  font: inherit;
+  color: var(--ink);
+  background: var(--panel-alt);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 5px 11px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+  width: 100px;
+}
+
+input[type="color"] {
+  width: 30px;
+  height: 25px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel-alt);
+  cursor: pointer;
+}
+
+.control-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mute);
+}
+
+.control-label input[type="number"] {
+  width: 62px;
+  padding: 4px 6px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* ==========================================================================
+   Layout Shell & Top Transport Bar
+   ========================================================================== */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar h1 {
+  font: 700 15px/1 "Segoe UI", system-ui, sans-serif;
+  margin: 0 10px 0 0;
+  letter-spacing: 0.02em;
+}
+
+#btn-play.active {
+  background: #2f9e5b;
+  color: #fff;
+  border-color: #2f9e5b;
+}
+
+#btn-pause.active {
+  background: #e0a020;
+  color: #1a1a1a;
+  border-color: #e0a020;
+}
+
+#btn-loop[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.lcd {
+  font: 600 17px/1 ui-monospace, Menlo, Consolas, monospace;
+  background: var(--black-key);
+  color: #7dffa8;
+  padding: 6px 10px;
+  border-radius: 5px;
+  min-width: 92px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Audio Lab & Custom Stem Bar
+   ========================================================================== */
+.upload-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.upload-bar input[type="file"] {
+  max-width: 220px;
+  font-size: 11px;
+}
+
+.custom-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.custom-sound {
+  padding: 3px 6px;
+  border-radius: 5px;
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  border: 1px solid var(--tc);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--tc) 35%, transparent);
+}
+
+/* ==========================================================================
+   Main Workspace & Channel Strips Sidebar
+   ========================================================================== */
+.workspace {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar {
+  width: 210px;
+  flex: none;
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.strip {
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--tc);
+  border-radius: 5px;
+  padding: 7px 8px;
+  background: var(--cell);
+  cursor: pointer;
+}
+
+.strip.selected {
+  outline: 2px solid var(--tc);
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--tc) 45%, transparent),
+    inset 0 0 12px color-mix(in srgb, var(--tc) 22%, transparent);
+}
+
+.strip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.strip b {
+  font-size: 13px;
+}
+
+.strip .mute-btn {
+  padding: 1px 8px;
+  font-weight: 700;
+}
+
+.strip .mute-btn[aria-pressed="true"] {
+  background: #d8483f;
+  color: #fff;
+  border-color: #d8483f;
+}
+
+.strip input[type="range"] {
+  width: 100%;
+  margin: 6px 0 0;
+  accent-color: var(--tc);
+}
+
+.strip small {
+  color: var(--mute);
+}
+
+.strip select {
+  max-width: 100%;
+  width: 100%;
+  margin-top: 5px;
+  padding: 4px;
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   Piano Roll & Sequencer Grid
+   ========================================================================== */
+.editor {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.editor-header h2 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.editor-header .track-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tc);
+}
+
+.tab[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.roll-scroll {
+  overflow: auto;
+  flex: 1;
+  padding-bottom: 10px;
+}
+
+#piano-roll {
+  position: relative;
+  width: max-content;
+  --cw: 26px;
+}
+
+.ruler,
+.roll-row {
+  display: flex;
+}
+
+.ruler {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--panel);
+}
+
+.row-label,
+.ruler-corner {
+  width: 72px;
+  flex: none;
+  position: sticky;
+  left: 0;
+  z-index: 4;
+}
+
+.ruler-corner {
+  height: 24px;
+  background: var(--panel);
+  border-right: 1px solid var(--bar);
+  border-bottom: 1px solid var(--bar);
+}
+
+.ruler-cell {
+  width: var(--cw);
+  height: 24px;
+  flex: none;
+  font-size: 10px;
+  color: var(--mute);
+  border-bottom: 1px solid var(--bar);
+  border-left: 1px solid var(--beat);
+  padding: 3px 0 0 3px;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.ruler-cell.bar-start {
+  border-left: 2px solid var(--bar);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.ruler-cell.sub-beat {
+  border-left-color: transparent;
+}
+
+.row-label {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 11px;
+  height: var(--ch);
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--bar);
+  background: var(--cell);
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.row-label.black-key {
+  background: var(--black-key);
+  color: var(--black-key-ink);
+}
+
+.row-label:hover {
+  filter: brightness(1.12);
+}
+
+.track-section .roll-row .row-label {
+  font-size: 10px;
+}
+
+.track-banner {
+  display: block;
+  height: 20px;
+  line-height: 20px;
+  background: var(--tc);
+  color: #14161a;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.track-banner span {
+  position: sticky;
+  left: 8px;
+  padding-right: 8px;
+}
+
+.grid-cell {
+  width: var(--cw);
+  height: var(--ch);
+  flex: none;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  background: var(--cell);
+  cursor: pointer;
+}
+
+.grid-cell.alt-beat {
+  background: var(--cell-alt);
+}
+
+.grid-cell.beat-line {
+  border-left-color: var(--beat);
+}
+
+.grid-cell.bar-line {
+  border-left: 2px solid var(--bar);
+}
+
+.grid-cell:hover {
+  box-shadow: inset 0 0 0 1px var(--tc);
+}
+
+.grid-cell .note-block {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  bottom: 1px;
+  width: calc(var(--n) * var(--cw) - 3px);
+  background: var(--tc);
+  border-radius: 3px;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow:
+    0 0 7px var(--tc),
+    0 0 14px color-mix(in srgb, var(--tc) 55%, transparent),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+}
+
+#playhead {
+  position: absolute;
+  top: 24px;
+  bottom: 0;
+  width: var(--cw);
+  left: 72px;
+  background: var(--accent);
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 3;
+  display: none;
+}
+
+.help-bar {
+  padding: 8px 12px;
+  color: var(--mute);
+  font-size: 12px;
+  border-top: 1px solid var(--line);
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+@media (max-width: 700px) {
+  .workspace {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .strip {
+    flex: 1 1 140px;
+  }
+}

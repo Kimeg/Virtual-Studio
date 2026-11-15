@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Virtual Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Top Transport & Global Controls -->
+    <header class="topbar">
+      <h1>Virtual Studio</h1>
+      <button id="btn-play" type="button">▶ Play</button>
+      <button id="btn-pause" type="button" disabled>❚❚ Pause</button>
+      <button id="btn-stop" type="button" disabled>■ Stop</button>
+      <button id="btn-loop" type="button" aria-pressed="true">↻ Loop</button>
+
+      <div class="lcd" id="lcd-display" aria-live="off">1 . 1 . 1</div>
+
+      <label class="control-label">
+        Genre
+        <select id="genre-select" aria-label="Genre example"></select>
+      </label>
+
+      <label class="control-label">
+        Tempo
+        <input type="number" id="bpm-input" min="40" max="240" value="100"> BPM
+      </label>
+
+      <span class="spacer"></span>
+
+      <label class="control-label">
+        Master
+        <input type="range" id="master-volume" min="0" max="100" value="80" aria-label="Master volume">
+      </label>
+    </header>
+
+    <!-- Audio Upload & Stem Extraction Bar -->
+    <section class="upload-bar" aria-label="Audio lab">
+      <strong>Audio lab</strong>
+      <input id="audio-file-input" type="file" accept=".mp3,.wav,audio/mpeg,audio/wav,audio/mp3">
+      <button id="btn-extract-drums" type="button" disabled>Extract drums</button>
+      <button id="btn-extract-piano" type="button" disabled>Extract piano</button>
+      <button id="btn-extract-guitar" type="button" disabled>Extract guitar</button>
+
+      <label class="control-label">
+        Sheet length
+        <select id="bars-select">
+          <option value="1">1 bar</option>
+          <option value="2" selected>2 bars</option>
+          <option value="4">4 bars</option>
+          <option value="8">8 bars</option>
+          <option value="16">16 bars</option>
+        </select>
+      </label>
+
+      <span id="audio-status" class="control-label">Upload MP3/WAV to create approximate stems</span>
+      <div id="custom-sounds-list" class="custom-list"></div>
+    </section>
+
+    <!-- Main Workspace: Channel Strips & Piano Roll Editor -->
+    <main class="workspace">
+      <aside class="sidebar" id="track-strips" aria-label="Instrument tracks"></aside>
+
+      <section class="editor" aria-label="Pattern editor">
+        <div class="editor-header" id="editor-header"></div>
+        <div class="roll-scroll">
+          <div id="piano-roll"></div>
+        </div>
+        <footer class="help-bar">
+          Pick a genre to load an example, then edit it. All tracks shows every instrument on one sheet;
+          Track editor zooms into one. Choose straight or triplet note lengths, then click or drag on the grid to place notes;
+          click a note to remove it. Triplet lengths affect note duration. Click a row label to hear that sound.
+          Space toggles play and pause.
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
